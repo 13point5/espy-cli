@@ -6,10 +6,13 @@ def main():
     pass
 
 @main.command()
-# @click.option('--name', help="Project name.")
-# @click.option('--filepath', '-fp', help="Path of directory where the project will live.")
-def new(): # name: str, filepath: str
-    print(os.getcwd())
+@click.argument('name', required=True)
+@click.option('--filepath', '-fp', help="path to directory where project will be created")
+def new(name, filepath):
+	""" NAME: name of the project """
+	if not filepath: filepath = os.getcwd()
+	print(type(name), name)
+	print(type(filepath), filepath)
 
 
 def start():

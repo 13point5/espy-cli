@@ -1,0 +1,3 @@
+[console_scripts]
+espy = espy.cli:start
+
