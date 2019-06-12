@@ -1,16 +1,17 @@
 from setuptools import setup, find_packages
 
 setup(
-      # mandatory
       name="espy",
-      # mandatory
       version="0.1",
-      # mandatory
+	  author="de-alchemist, aka Bharath Sriraam R R",
       author_email="albharath.1305@gmail.com",
-      packages=['espy'],
+	  description="ESP-IDF Command Line Interface",
+	  long_description=open('README.md').read(),
+      packages=find_packages(exclude=['*__pycache__*', '*espy.egg-info*']),
       package_data={},
-      install_requires=['click'],
+      install_requires=['click', 'appdirs'],
       entry_points={
-        'console_scripts': ['espy = espy.cli:start']
-      }
+        'console_scripts': ['espy = espy.cli:cli']
+      },
+	  url="https://github.com/de-alchemist/Espy"
 )
