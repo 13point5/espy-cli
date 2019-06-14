@@ -1,31 +1,8 @@
+import json
 import os
 import click
-import espy
-import sys
-import json
-from appdirs import user_config_dir
-
-SECTION_IDF = 'IDFs'
-SECTION_APP = 'Apps'
-
-CONFIG_DIR = user_config_dir("esp-cli")
-CONFIG_FILE = os.path.join(CONFIG_DIR, 'config.json')
-
-
-def is_dir(dir_path):
-	return os.path.isdir(dir_path)
-
-
-def is_file(filepath):
-	return os.path.exists(filepath)
-
-
-def is_json_dup(jbon, key, value):
-	for obj in jbon:
-		if obj[key] == value:
-			return True
-	return False
-
+from .constants import *
+from .general import *
 
 def config_read():
 	"""

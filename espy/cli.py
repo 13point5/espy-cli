@@ -1,5 +1,4 @@
 import click
-from espy import gen_utils
 from espy.app import commands as app_cmds
 from espy.idf import commands as idf_cmds
 
@@ -32,3 +31,6 @@ if __name__ == "__main__":
 
 new.add_command(app_cmds.create_app, "app")
 new.add_command(idf_cmds.create_idf, "idf")
+
+
+get.add_command(idf_cmds.find_idf, "idf")

@@ -1,13 +1,14 @@
 import os
 import click
 import sys
-from espy.gen_utils import *
+from espy.utils.general import *
+from espy.utils.config import *
+from espy.utils.constants import *
 
 
 def new_idf(name, filepath):
 	if not is_dir(filepath):
-		click.echo("The specified path does not exist.", err=True)
-		sys.exit(1)
+		disp_err("The specified path does not exist.", exit=True)
 
 	config = config_read()
 	config_idf = config[SECTION_IDF]
@@ -20,8 +21,19 @@ def new_idf(name, filepath):
 			config_write(config)
 			return "Succesfully added {} to config".format(name)
 		else:
-			click.echo("The specified path already exists in the config", err=True)
-			sys.exit(1)
+			disp_err("The specified path already exists in the config", exit=True)
 	else:
-		click.echo("The specified name for IDF already exists in the config", err=True)
-		sys.exit(1)
+		disp_err("The specified name for IDF already exists in the config", exit=True)
+
+
+def get_idf(name=None):
+	config = config_read()
+	config_idf = config[SECTION_IDF]
+
+	data = config_idf
+	if name:
+		data = get_json(config_idf, "name", name)
+		if data is None:
+			disp_err("Could not find the required IDF", exit=True)
+
+	disp_json(data, ["name", "filepath"])
