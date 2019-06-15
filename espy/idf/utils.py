@@ -10,6 +10,8 @@ def new_idf(name, filepath):
 	if not is_dir(filepath):
 		disp_err("The specified path does not exist.", exit=True)
 
+	filepath = filepath.rstrip("/")
+
 	config = config_read()
 	config_idf = config[SECTION_IDF]
 	if not is_json_dup(config_idf, "name", name):
@@ -36,4 +38,25 @@ def get_idf(name=None):
 		if data is None:
 			disp_err("Could not find the required IDF", exit=True)
 
-	disp_json(data, ["name", "filepath"])
+	return data
+
+
+def remove_idf(name=None):
+	config = config_read()
+	config_idf = config[SECTION_IDF]
+	if name:
+		k=-1
+		for i in range(len(config_idf)):
+			if config_idf[i]["name"] == name:
+				k=i
+				break
+		if k==-1:
+			disp_err("Could not find the required IDF", exit=True)
+		else:
+			del config_idf[k]
+	else:
+		config_idf = []
+
+	config[SECTION_IDF] = config_idf
+	config_write(config)
+	return "Succesfully deleted required IDF(s)"

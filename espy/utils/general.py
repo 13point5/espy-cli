@@ -12,6 +12,12 @@ def is_file(filepath):
 	return os.path.exists(filepath)
 
 
+def write_file(filepath, data):
+	file = open(filepath, 'w')
+	file.write(data)
+	file.close()
+
+
 def is_json_dup(jbon, key, value):
 	for obj in jbon:
 		if obj[key] == value:

@@ -21,7 +21,7 @@ def get():
 
 
 @cli.group()
-def mod():
+def rm():
 	"""Modify Apps or IDF's configured using espy"""
 	pass
 
@@ -34,3 +34,6 @@ new.add_command(idf_cmds.create_idf, "idf")
 
 
 get.add_command(idf_cmds.find_idf, "idf")
+
+
+rm.add_command(idf_cmds.delete_idf, "idf")
