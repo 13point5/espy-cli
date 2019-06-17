@@ -33,32 +33,33 @@ def config_exists():
 			json.dump(empty_config, cnf_file)
 
 		click.echo("A blank configuration file has been created at {}\n"
-					"Please add atleast 1 IDF path in order to create apps.".format(CONFIG_FILE))
+					"Please add atleast 1 IDF path in order to create apps.\n".format(CONFIG_FILE))
 		return False
 
 	return True
 
 
-def config_check():
+def config_check(section):
 	"""
 	Check if the config file is not corrupted
 	"""
 	config = config_read()
 
-	if not config[SECTION_IDF]:
-		click.echo("Please add atleast 1 IDF path in order to create apps.")
+	if not config[section]:
+		disp_err("{} config is empty".format(section))
 		return False
 
 	return True
 
 
-def config_init():
-	"""
-	Initialise configurations
-	"""
-	if config_exists():
-		if not config_check():
-			sys.exit(1)
-		pass
-	else:
-		sys.exit(1)
+def get_data(section, key=None, value=None):
+	config = config_read()
+	config_section = config[section]
+
+	data = config_section
+	if value and key:
+		data = get_json(config_section, key, value)
+		if data is None:
+			disp_err("Could not find the required {}".format(section), exit=True)
+
+	return data

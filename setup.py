@@ -13,5 +13,5 @@ setup(
       entry_points={
         'console_scripts': ['espy = espy.cli:cli']
       },
-	  url="https://github.com/de-alchemist/Espy"
+	  url="https://github.com/de-alchemist/espy-cli"
 )

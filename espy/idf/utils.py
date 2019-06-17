@@ -55,6 +55,7 @@ def remove_idf(name=None):
 		else:
 			del config_idf[k]
 	else:
+		click.confirm("Delete all IDFs?", abort=True)
 		config_idf = []
 
 	config[SECTION_IDF] = config_idf

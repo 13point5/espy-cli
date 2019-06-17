@@ -18,18 +18,17 @@ def write_file(filepath, data):
 	file.close()
 
 
-def is_json_dup(jbon, key, value):
-	for obj in jbon:
-		if obj[key] == value:
-			return True
-	return False
-
-
 def get_json(jbon, key, value):
 	for obj in jbon:
 		if obj[key] == value:
 			return [obj]
 	return None
+
+
+def is_json_dup(jbon, key, value):
+	if get_json(jbon, key, value) is not None:
+		return True
+	return False
 
 
 def disp_json(jbon, keys):

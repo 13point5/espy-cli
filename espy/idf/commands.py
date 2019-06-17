@@ -3,7 +3,7 @@ Commands to manage IDF paths
 """
 
 import click
-from espy.idf import utils
+from . import utils
 from espy.utils.general import disp_json
 
 @click.command()
@@ -18,7 +18,7 @@ def create_idf(name, filepath):
 
 @click.command()
 @click.option('-n', '--name', type=click.STRING, help='Name of the IDF. Must be unique')
-def find_idf(name=None):
+def find_idf(name):
 	"""
 	Find all or specified IDF(s)
 	"""
@@ -28,7 +28,7 @@ def find_idf(name=None):
 
 @click.command()
 @click.option('-n', '--name', type=click.STRING, help='Name of the IDF. Must be unique')
-def delete_idf(name=None):
+def delete_idf(name):
 	"""
 	Delete all or specified IDF(s)
 	"""

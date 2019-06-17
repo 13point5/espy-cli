@@ -9,6 +9,8 @@ def new_app(dir_name, dir_path, idfname):
 	if not dir_path:
 		dir_path = cur_path
 
+	#dir_path = dir_path.rstrip('/')
+
 	if not is_dir(dir_path):
 		click.echo("The specified directory path does not exist.")
 		click.confirm("Countinue to make the directory?", abort=True)
@@ -18,11 +20,10 @@ def new_app(dir_name, dir_path, idfname):
 	if is_dir(proj_path):
 		disp_err("Directory with given project name already exists", exit=True)
 
+	idf_path = get_idf(idfname)[0]["filepath"]
 
 	proj_main_path = os.path.join(proj_path, "main")
 	os.makedirs(proj_main_path)
-
-	idf_path = get_idf(idfname)[0]["filepath"]
 
 	"""
 	root dir files
@@ -44,5 +45,24 @@ def new_app(dir_name, dir_path, idfname):
 
 	main_app_data = '#include <stdio.h>\n\n\nvoid app_main() {\n\tprintf("Hello world!\\n");\n}'
 	write_file(os.path.join(proj_main_path, "main.c"), main_app_data)
+
+	"""
+	writing to config
+	"""
+	config = config_read()
+	config_app = config[SECTION_APP]
+	if not is_json_dup(config_app, "name", dir_name):
+		if not is_json_dup(config_app, "filepath", proj_path):
+			config_app.append({
+				"name": dir_name,
+				"filepath": proj_path,
+				"idf": idfname,
+				"idfpath": idf_path
+			})
+			config_write(config)
+		else:
+			disp_err("The specified filepath already exists in the config", exit=True)
+	else:
+		disp_err("The specified name for App already exists in the config", exit=True)
 
 	return "Project created!"
