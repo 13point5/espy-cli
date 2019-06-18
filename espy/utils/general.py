@@ -18,12 +18,13 @@ def write_file(filepath, data):
 	file.close()
 
 
-def get_json(jbon, key, value):
-	for obj in jbon:
-		if obj[key] == value:
-			return [obj]
+def get_json(jbon, key, value, idx=False):
+	for i in range(len(jbon)):
+		if jbon[i][key] == value:
+			if idx:
+				return i
+			return [jbon[i]]
 	return None
-
 
 def is_json_dup(jbon, key, value):
 	if get_json(jbon, key, value) is not None:

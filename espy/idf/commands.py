@@ -3,8 +3,8 @@ Commands to manage IDF paths
 """
 
 import click
-from . import utils
-from espy.utils.general import disp_json
+from espy.idf import utils
+from espy.utils import config, constants, general
 
 @click.command()
 @click.option('-n', '--name', required=True, type=click.STRING, help='Name of the IDF. Must be unique')
@@ -13,7 +13,7 @@ def create_idf(name, filepath):
 	"""
 	Add a new IDF with the given name and filepath
 	"""
-	click.echo(utils.new_idf(name, filepath))
+	click.echo(utils.new_idf(name, filepath.rstrip("/")))
 
 
 @click.command()
@@ -22,8 +22,17 @@ def find_idf(name):
 	"""
 	Find all or specified IDF(s)
 	"""
-	data = utils.get_idf(name)
-	disp_json(data, ["name", "filepath"])
+	data = config.get_data(constants.SECTION_IDF, "name", name)
+	general.disp_json(data, ["name", "filepath"])
+
+
+@click.command()
+@click.option('-n', '--name', required=True, type=click.STRING, help='Name of the IDF. Must be unique')
+def change_idf(name):
+	"""
+	Find all or specified IDF(s)
+	"""
+	click.echo(utils.mod_idf(name))
 
 
 @click.command()

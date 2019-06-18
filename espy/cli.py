@@ -32,4 +32,5 @@ app.add_command(app_cmds.get_app, "get")
 
 idf.add_command(idf_cmds.create_idf, "new")
 idf.add_command(idf_cmds.find_idf, "get")
+idf.add_command(idf_cmds.change_idf, "mod")
 idf.add_command(idf_cmds.delete_idf, "del")

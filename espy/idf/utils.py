@@ -10,8 +10,6 @@ def new_idf(name, filepath):
 	if not is_dir(filepath):
 		disp_err("The specified path does not exist.", exit=True)
 
-	filepath = filepath.rstrip("/")
-
 	config = config_read()
 	config_idf = config[SECTION_IDF]
 	if not is_json_dup(config_idf, "name", name):
@@ -28,20 +26,34 @@ def new_idf(name, filepath):
 		disp_err("The specified name for IDF already exists in the config", exit=True)
 
 
-def get_idf(name=None):
+def mod_idf(name):
 	config = config_read()
 	config_idf = config[SECTION_IDF]
 
-	data = config_idf
-	if name:
-		data = get_json(config_idf, "name", name)
-		if data is None:
-			disp_err("Could not find the required IDF", exit=True)
+	obj_idx = get_json(config_idf, "name", name, idx=True)
+	if obj_idx is None:
+		disp_err("Could not find required IDF", exit=True)
 
-	return data
+	disp_json([config_idf[obj_idx]], ["name", "filepath"])
+
+	new_name = click.prompt("Enter the new name for the IDF")
+	new_filepath = None
+
+	if click.confirm("\nChange the path of the IDF?"):
+		new_filepath = click.prompt("Enter the new path for the IDF").rstrip("/")
+
+	click.confirm("\nNote: If this IDF has been used in an app, modify them if needed.\nContinue to modify IDF?", abort=True)
+
+	config_idf[obj_idx]["name"] = new_name
+	if new_filepath is not None:
+		config_idf[obj_idx]["filepath"] = new_filepath
+
+	config[SECTION_IDF] = config_idf
+	config_write(config)
+	return "Succesfully modified the IDF"
 
 
-def remove_idf(name=None):
+def remove_idf(name):
 	config = config_read()
 	config_idf = config[SECTION_IDF]
 	if name:
