@@ -66,3 +66,13 @@ def new_app(dir_name, dir_path, idfname):
 		disp_err("The specified name for App already exists in the config", exit=True)
 
 	return "Project created!"
+
+
+def modify_app(data, opts, opt_msgs):
+
+	click.echo(data)
+
+	for o in range(len(opts)):
+		if opts[o] == True:
+			if opt_msgs[o] == "Name":
+				pass

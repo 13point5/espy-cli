@@ -28,6 +28,7 @@ if __name__ == "__main__":
 
 app.add_command(app_cmds.create_app, "new")
 app.add_command(app_cmds.get_app, "get")
+app.add_command(app_cmds.mod_app, "mod")
 
 
 idf.add_command(idf_cmds.create_idf, "new")

@@ -28,3 +28,31 @@ def get_app(name):
 	"""
 	data = config.get_data(constants.SECTION_APP, "name", name)
 	general.disp_json(data, ["name", "filepath", "idf", "idfpath"])
+
+
+@click.command()
+@click.option('-n', '--name', required=True, type=click.STRING, help='Original Name of the app to modify')
+def mod_app(name):
+	"""
+	Modify name or idf of app
+	"""
+	data = config.get_data(constants.SECTION_APP, "name", name)[0]
+	
+	option_msgs = [ "Name", "IDF" ]
+	click.echo("What do you wish to modify?")
+	for i, o in enumerate(option_msgs):
+		msg = "[{}] " + o
+		click.echo(msg.format(i+1))
+	opt = click.prompt("\nEnter option number (0 for ALL)", type=int)
+
+	option_count = len(option_msgs) + 1
+	if opt not in range(option_count):
+		general.disp_err("Unknown option", exit=True)
+
+	options = [False] * option_count
+	if opt>0:
+		options[opt] = True
+	else:
+		options = [True] * option_count
+
+	utils.modify_app(data, options, option_msgs)
