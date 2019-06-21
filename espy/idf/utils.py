@@ -65,6 +65,7 @@ def remove_idf(name):
 		if k==-1:
 			disp_err("Could not find the required IDF", exit=True)
 		else:
+			click.confirm("Delete IDF: {}".format(name), abort=True)
 			del config_idf[k]
 	else:
 		click.confirm("Delete all IDFs?", abort=True)

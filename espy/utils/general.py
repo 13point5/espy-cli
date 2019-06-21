@@ -12,6 +12,13 @@ def is_file(filepath):
 	return os.path.exists(filepath)
 
 
+def read_file(filepath):
+	file = open(filepath, 'r')
+	data = file.readlines()
+	file.close()
+	return data
+
+
 def write_file(filepath, data):
 	file = open(filepath, 'w')
 	file.write(data)
