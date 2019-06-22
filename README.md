@@ -7,7 +7,9 @@ A CLI tool to easily manage your ESP-IDF projects.
 * Change the IDF used in a project at any time.
 
 ### Note
-Before creating a project/app make sure you have added atleast 1 IDF path. In case you forget espy will remind you ;)
+> Projects are called apps.<br>
+> Before creating an app make sure you have added atleast 1 IDF path.<br>
+> In case you forget espy will remind you :bowtie:
 
 # Usage
 1. Managing IDFs
@@ -74,3 +76,22 @@ Before creating a project/app make sure you have added atleast 1 IDF path. In ca
         Delete IDF: idf1 [y/N]: y
         Successfully deleted required IDF(s)
         ```
+
+2. Managing apps
+   * Create a new app
+      ```
+      $ espy app new -n hello_world -idf idf1
+      Project created!
+      
+      $ tree hello_world/
+      hello_world/
+      ├── CMakelists.txt
+      ├── main
+      │   ├── CMakelists.txt
+      │   ├── component.mk
+      │   └── main.c
+      └── Makefile
+
+      1 directory, 5 files
+      ```
+      
