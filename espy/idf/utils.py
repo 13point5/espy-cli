@@ -19,7 +19,7 @@ def new_idf(name, filepath):
 				"filepath": filepath
 			})
 			config_write(config)
-			return "Succesfully added {} to config".format(name)
+			return "Successfully added {} to config".format(name)
 		else:
 			disp_err("The specified path already exists in the config", exit=True)
 	else:
@@ -50,7 +50,7 @@ def mod_idf(name):
 
 	config[SECTION_IDF] = config_idf
 	config_write(config)
-	return "Succesfully modified the IDF"
+	return "Successfully modified the IDF"
 
 
 def remove_idf(name):
@@ -73,4 +73,4 @@ def remove_idf(name):
 
 	config[SECTION_IDF] = config_idf
 	config_write(config)
-	return "Succesfully deleted required IDF(s)"
+	return "Successfully deleted required IDF(s)"

@@ -66,7 +66,7 @@ def new_app(dir_name, dir_path, idfname):
 		else:
 			disp_err("The specified filepath already exists in the config", exit=True)
 	else:
-		disp_err("The specified name for App already exists in the config", exit=True)
+		disp_err("The specified App name already exists in the config", exit=True)
 
 	return "Project created!"
 
@@ -112,7 +112,7 @@ def change_name(data, makefile_path, cmake_path):
 	if click.confirm("Change the name of the project?"):
 		write_file(makefile_path, makefile_data)
 		write_file(cmake_path, cmake_data)
-		click.echo("Succesfully changed name!")
+		click.echo("Successfully changed name!")
 
 
 def change_idf(data, makefile_path, cmake_path):
@@ -145,7 +145,7 @@ def change_idf(data, makefile_path, cmake_path):
 	if click.confirm("Change the IDF of the project?"):
 		write_file(makefile_path, makefile_data)
 		write_file(cmake_path, cmake_data)
-		click.echo("Succesfully changed IDF!")
+		click.echo("Successfully changed IDF!")
 
 
 def remove_app(name):
@@ -168,4 +168,4 @@ def remove_app(name):
 
 	config[SECTION_APP] = config_app
 	config_write(config)
-	return "Succesfully deleted required App(s)"
+	return "Successfully deleted required App(s)"
