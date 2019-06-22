@@ -1,5 +1,5 @@
 # espy-cli
-A CLI tool to easily manage your ESP-IDF projects.
+A CLI application to manage your ESP-IDF projects with ease.
 
 # Features
 * Manage all your projects and change their configuration with ease
@@ -7,6 +7,7 @@ A CLI tool to easily manage your ESP-IDF projects.
 * Change the IDF used in a project at any time.
 
 ### Note
+> Initially you need to configure 1 path in the IDF_PATH environment variable, **only once**.<br>
 > Projects are called apps.<br>
 > Before creating an app make sure you have added atleast 1 IDF path.<br>
 > In case you forget espy will remind you :bowtie:
@@ -93,5 +94,30 @@ A CLI tool to easily manage your ESP-IDF projects.
       └── Makefile
 
       1 directory, 5 files
+      ```
+      
+   * Get all or specific App(s)
+      ```
+      $ espy app get
+      
+      +-------------+----------------------------------------------+------+---------------------------+
+      | name        | filepath                                     | idf  | idfpath                   |
+      +-------------+----------------------------------------------+------+---------------------------+
+      | hello_world | /home/user/Documents/projects/hello_world    | idf1 | /home/user/esp/esp-idf    |
+      +-------------+----------------------------------------------+------+---------------------------+
+      ```
+      
+   * Modify an App
+      ```
+      $ espy app mod -n hello_world
+      What do you wish to modify?
+      [1] Name
+      [2] IDF
+
+      Enter option number (0 for ALL): 1
+
+      Enter new name: bye_world
+      Change the name of the project? [y/N]: y
+      Successfully changed name!
       ```
       
