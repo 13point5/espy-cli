@@ -10,16 +10,19 @@ def new_app(dir_name, dir_path, idfname):
 	if not dir_path:
 		dir_path = cur_path
 
-	#dir_path = dir_path.rstrip('/')
+
 
 	if not is_dir(dir_path):
-		click.echo("The specified directory path does not exist.")
+		click.echo("\nThe specified directory path does not exist.")
 		click.confirm("Countinue to make the directory?", abort=True)
 		os.makedirs(dir_path)
 
+	os.chdir(dir_path)
+	dir_path = os.getcwd()
+
 	proj_path = os.path.join(dir_path, dir_name)
 	if is_dir(proj_path):
-		disp_err("Directory with given project name already exists", exit=True)
+		disp_err("\nDirectory with given project name already exists", exit=True)
 
 
 	idf_data = get_data(SECTION_IDF, "name", idfname)
@@ -68,12 +71,18 @@ def new_app(dir_name, dir_path, idfname):
 	else:
 		disp_err("The specified App name already exists in the config", exit=True)
 
-	return "Project created!"
+	return "\nProject created!"
 
 
-def modify_app(data, opts, opt_msgs):
+def modify_app(app_idx, opts, opt_msgs):
 
-	proj_path = data["filepath"]
+	config = config_read()
+	config_app = config[SECTION_APP]
+	app_data = config_app[app_idx]
+	proj_path = app_data["filepath"]
+
+	new_app_data = None
+	new_idf_data = None
 
 	makefile_path = os.path.join(proj_path, "Makefile")
 	if not is_file(makefile_path):
@@ -86,9 +95,27 @@ def modify_app(data, opts, opt_msgs):
 	for o in range(len(opts)):
 		if opts[o] == True:
 			if opt_msgs[o] == "Name":
-				change_name(data, makefile_path, cmake_path)
+				new_app_data = change_name(app_data, makefile_path, cmake_path)
+				if new_app_data:
+					config_app[app_idx]["name"] = new_app_data[0]
+					config_app[app_idx]["filepath"] = new_app_data[1]
+
 			if opt_msgs[o] == "IDF":
-				change_idf(data, makefile_path, cmake_path)
+				new_idf_data = change_idf(app_data, makefile_path, cmake_path)
+				if new_idf_data:
+					config_app[app_idx]["idf"] = new_idf_data[0]
+					config_app[app_idx]["idfpath"] = new_idf_data[1]
+
+
+
+
+	if new_app_data or new_idf_data:
+		config[SECTION_APP] = config_app
+		config_write(config)
+		return "\nSuccessfully modified app details!"
+
+	return "\nNothing changed."
+
 
 
 def change_name(data, makefile_path, cmake_path):
@@ -109,10 +136,22 @@ def change_name(data, makefile_path, cmake_path):
 			break
 	cmake_data = "".join(cmake_data)
 
+	old_filepath = data["filepath"]
+	os.chdir(old_filepath)
+	os.chdir("..")
+
+	new_filepath = (os.path.join(os.getcwd(), new_name))
+	if is_dir(new_filepath):
+		disp_err("\nDirectory with new app name exists", exit=True)
+
 	if click.confirm("Change the name of the project?"):
 		write_file(makefile_path, makefile_data)
 		write_file(cmake_path, cmake_data)
-		click.echo("Successfully changed name!")
+		os.rename(old_filepath, new_filepath)
+		click.echo("\nName changed.")
+		return [new_name, new_filepath]
+
+	return None
 
 
 def change_idf(data, makefile_path, cmake_path):
@@ -121,11 +160,11 @@ def change_idf(data, makefile_path, cmake_path):
 	config = config_read()
 	config_idf = config[SECTION_IDF]
 
-	idf = get_json(config_idf, "name", new_idf_name)
-	if idf is None:
-		disp_err("Could not find required IDF", exit=True)
+	idf_idx = get_json(config_idf, "name", new_idf_name, True)
+	if idf_idx is None:
+		disp_err("\nCould not find required IDF", exit=True)
 
-	new_idf_path = idf[0]["filepath"]
+	new_idf_path = config_idf[idf_idx]["filepath"]
 	old_idf_path = data["idfpath"]
 
 	makefile_data = read_file(makefile_path)
@@ -145,27 +184,27 @@ def change_idf(data, makefile_path, cmake_path):
 	if click.confirm("Change the IDF of the project?"):
 		write_file(makefile_path, makefile_data)
 		write_file(cmake_path, cmake_data)
-		click.echo("Successfully changed IDF!")
+		click.echo("\nIDF changed.")
+		return [new_idf_name, new_idf_path]
+
+	return None
 
 
 def remove_app(name):
 	config = config_read()
 	config_app = config[SECTION_APP]
 	if name:
-		k = -1
-		for i in range(len(config_app)):
-			if config_app[i]["name"] == name:
-				k = i
-				break
-		if k == -1:
-			disp_err("Could not find the required App", exit=True)
+		obj_idx = get_json(config_app, "name", name, idx=True)
+
+		if obj_idx is None:
+			disp_err("Could not find required App", exit=True)
 		else:
 			click.confirm("Delete app: {}?".format(name), abort=True)
-			del config_app[k]
+			del config_app[obj_idx]
 	else:
 		click.confirm("Delete all Apps?", abort=True)
 		config_app = []
 
 	config[SECTION_APP] = config_app
 	config_write(config)
-	return "Successfully deleted required App(s)"
+	return "\nSuccessfully deleted required App(s)"

@@ -36,10 +36,10 @@ def mod_app(name):
 	"""
 	Modify name or idf of app
 	"""
-	data = config.get_data(constants.SECTION_APP, "name", name)[0]
+	app_idx = config.get_data(constants.SECTION_APP, "name", name, True)
 
 	option_msgs = [ "Name", "IDF" ]
-	click.echo("What do you wish to modify?")
+	click.echo("\nWhat do you wish to modify?")
 	for i, o in enumerate(option_msgs):
 		msg = "[{}] " + o
 		click.echo(msg.format(i+1))
@@ -55,11 +55,11 @@ def mod_app(name):
 	else:
 		options = [True] * option_count
 
-	utils.modify_app(data, options, option_msgs)
+	click.echo(utils.modify_app(app_idx, options, option_msgs))
 
 
 @click.command()
-@click.option('-n', '--name', required=True, type=click.STRING, help='Name of the app to delete')
+@click.option('-n', '--name', type=click.STRING, help='Name of the app to delete')
 def del_app(name):
 	"""
 	Delete all or specified App(s)

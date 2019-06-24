@@ -1,12 +1,12 @@
 import click
 from espy.app import commands as app_cmds
 from espy.idf import commands as idf_cmds
-from espy.utils import config
+from espy.utils import config as cfg
 
 @click.group()
 def cli():
 	"""ESP-IDF Command Line Interface"""
-	config.config_exists()
+	cfg.config_exists()
 	pass
 
 
@@ -18,8 +18,14 @@ def app():
 
 @cli.group()
 def idf():
-	"""Commands related to app"""
+	"""Commands related to idf"""
 	pass
+
+
+@cli.command()
+def show():
+	"""Show config"""
+	cfg.config_disp()
 
 
 if __name__ == "__main__":

@@ -48,6 +48,6 @@ def disp_json(jbon, keys):
 
 
 def disp_err(msg, exit=None):
-	click.echo(msg, err=True)
+	click.echo("\n" + msg, err=True)
 	if exit:
 		sys.exit(1)

@@ -12,6 +12,16 @@ def config_read():
 		return json.load(cnf_file)
 
 
+def config_disp():
+	"""
+	display config
+	"""
+	config = config_read()
+	pretty = json.dumps(config, indent=4)
+	click.echo(pretty)
+	click.echo("\nConfig location: {}".format(CONFIG_FILE))
+
+
 def config_write(new_config):
 	"""
 	Write to config file
@@ -32,7 +42,7 @@ def config_exists():
 		with open(CONFIG_FILE, 'w') as cnf_file:
 			json.dump(empty_config, cnf_file)
 
-		click.echo("A blank configuration file has been created at {}\n"
+		click.echo("\nA blank configuration file has been created at {}\n"
 					"Please add atleast 1 IDF path in order to create apps.\n".format(CONFIG_FILE))
 		return False
 
@@ -52,13 +62,13 @@ def config_check(section):
 	return True
 
 
-def get_data(section, key=None, value=None):
+def get_data(section, key=None, value=None, idx=False):
 	config = config_read()
 	config_section = config[section]
 
 	data = config_section
 	if value and key:
-		data = get_json(config_section, key, value)
+		data = get_json(config_section, key, value, idx)
 		if data is None:
 			disp_err("Could not find the required {}".format(section), exit=True)
 
