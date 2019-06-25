@@ -10,8 +10,6 @@ def new_app(dir_name, dir_path, idfname):
 	if not dir_path:
 		dir_path = cur_path
 
-
-
 	if not is_dir(dir_path):
 		click.echo("\nThe specified directory path does not exist.")
 		click.confirm("Countinue to make the directory?", abort=True)
@@ -84,24 +82,16 @@ def modify_app(app_idx, opts, opt_msgs):
 	new_app_data = None
 	new_idf_data = None
 
-	makefile_path = os.path.join(proj_path, "Makefile")
-	if not is_file(makefile_path):
-		disp_err("Could not find Makefile", exit=True)
-
-	cmake_path = os.path.join(proj_path, "CMakelists.txt")
-	if not is_file(cmake_path):
-		disp_err("Could not find CMakelists.txt", exit=True)
-
 	for o in range(len(opts)):
 		if opts[o] == True:
 			if opt_msgs[o] == "Name":
-				new_app_data = change_name(app_data, makefile_path, cmake_path)
+				new_app_data = change_name(app_data)
 				if new_app_data:
 					config_app[app_idx]["name"] = new_app_data[0]
 					config_app[app_idx]["filepath"] = new_app_data[1]
 
 			if opt_msgs[o] == "IDF":
-				new_idf_data = change_idf(app_data, makefile_path, cmake_path)
+				new_idf_data = change_idf(app_data)
 				if new_idf_data:
 					config_app[app_idx]["idf"] = new_idf_data[0]
 					config_app[app_idx]["idfpath"] = new_idf_data[1]
@@ -118,9 +108,19 @@ def modify_app(app_idx, opts, opt_msgs):
 
 
 
-def change_name(data, makefile_path, cmake_path):
+def change_name(data):
 
 	new_name = click.prompt("\nEnter new name")
+
+	proj_path = data["filepath"]
+
+	makefile_path = os.path.join(proj_path, "Makefile")
+	if not is_file(makefile_path):
+		disp_err("Could not find Makefile", exit=True)
+
+	cmake_path = os.path.join(proj_path, "CMakelists.txt")
+	if not is_file(cmake_path):
+		disp_err("Could not find CMakelists.txt", exit=True)
 
 	makefile_data = read_file(makefile_path)
 	for i in range(len(makefile_data)):
@@ -154,7 +154,7 @@ def change_name(data, makefile_path, cmake_path):
 	return None
 
 
-def change_idf(data, makefile_path, cmake_path):
+def change_idf(data):
 
 	new_idf_name = click.prompt("\nEnter new IDF's name")
 	config = config_read()
@@ -166,6 +166,16 @@ def change_idf(data, makefile_path, cmake_path):
 
 	new_idf_path = config_idf[idf_idx]["filepath"]
 	old_idf_path = data["idfpath"]
+
+	proj_path = data["filepath"]
+
+	makefile_path = os.path.join(proj_path, "Makefile")
+	if not is_file(makefile_path):
+		disp_err("Could not find Makefile", exit=True)
+
+	cmake_path = os.path.join(proj_path, "CMakelists.txt")
+	if not is_file(cmake_path):
+		disp_err("Could not find CMakelists.txt", exit=True)
 
 	makefile_data = read_file(makefile_path)
 	for i in range(len(makefile_data)):
