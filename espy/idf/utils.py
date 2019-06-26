@@ -10,6 +10,9 @@ def new_idf(name, filepath):
 	if not is_dir(filepath):
 		disp_err("The specified path does not exist.", exit=True)
 
+	os.chdir(filepath)
+	filepath = os.getcwd()
+
 	config = config_read()
 	config_idf = config[SECTION_IDF]
 	if not is_json_dup(config_idf, "name", name):

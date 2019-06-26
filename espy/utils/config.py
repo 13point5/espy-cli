@@ -16,10 +16,15 @@ def config_disp():
 	"""
 	display config
 	"""
-	config = config_read()
-	pretty = json.dumps(config, indent=4)
-	click.echo(pretty)
 	click.echo("\nConfig location: {}".format(CONFIG_FILE))
+
+	idf_data = get_data(SECTION_IDF)
+	click.echo("\nIDFs\n")
+	disp_json(idf_data, ["name", "filepath"])
+
+	app_data = get_data(SECTION_APP)
+	click.echo("\nApps\n")
+	disp_json(app_data, ["name", "filepath", "idf", "idfpath"])
 
 
 def config_write(new_config):
