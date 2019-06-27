@@ -1,7 +1,7 @@
 import click
-from espy.app import commands as app_cmds
-from espy.idf import commands as idf_cmds
-from espy.utils import config as cfg
+from src.app import commands as app_cmds
+from src.idf import commands as idf_cmds
+from src.utils import config as cfg
 
 @click.group()
 def cli():

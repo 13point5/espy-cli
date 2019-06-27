@@ -3,8 +3,8 @@ Commands to manage an app
 """
 
 import click
-from espy.app import utils
-from espy.utils import config, constants, general
+from src.app import utils
+from src.utils import config, constants, general
 
 @click.command()
 @click.option('-n', '--name', type=click.STRING, required=True, help='Name of the app')

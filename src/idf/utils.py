@@ -1,9 +1,9 @@
 import os
 import click
 import sys
-from espy.utils.general import *
-from espy.utils.config import *
-from espy.utils.constants import *
+from src.utils.general import *
+from src.utils.config import *
+from src.utils.constants import *
 
 
 def new_idf(name, filepath):
@@ -53,7 +53,7 @@ def mod_idf(name):
 			disp_err("Specified IDF path already exists.".format(new_name), exit=True)
 		config_idf[obj_idx]["filepath"] = new_filepath
 
-	click.confirm("\nNote: If this IDF has been used in an app, modify them accordingly.\nContinue to modify IDF?", abort=True)		
+	click.confirm("\nNote: If this IDF has been used in an app, modify them accordingly.\nContinue to modify IDF?", abort=True)
 
 	config[SECTION_IDF] = config_idf
 	config_write(config)

@@ -1,6 +1,12 @@
 # espy-cli
 A Command Line application to manage your ESP-IDF projects with ease.
 
+# Installation
+```
+pip install espy-cli
+```
+> This assumes that python3 is the default python version in your system.
+
 # Features
 * Manage all your projects and change their configuration
 * Use multiple IDF versions without the need to update Environment variables and then logout or reboot

@@ -1,8 +1,8 @@
 import os
 import click
-from espy.utils.general import *
-from espy.utils.config import *
-from espy.idf.utils import *
+from src.utils.general import *
+from src.utils.config import *
+from src.idf.utils import *
 
 
 def new_app(dir_name, dir_path, idfname):
