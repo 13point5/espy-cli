@@ -30,7 +30,7 @@ def find_idf(name):
 @click.option('-n', '--name', required=True, type=click.STRING, help='Name of the IDF. Must be unique')
 def change_idf(name):
 	"""
-	Find all or specified IDF(s)
+	Modify details of specified IDF
 	"""
 	click.echo(utils.mod_idf(name))
 

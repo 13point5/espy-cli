@@ -85,7 +85,7 @@ def modify_app(app_idx, opts, opt_msgs):
 	for o in range(len(opts)):
 		if opts[o] == True:
 			if opt_msgs[o] == "Name":
-				new_app_data = change_name(app_data)
+				new_app_data = change_name(config_app, app_data)
 				if new_app_data:
 					config_app[app_idx]["name"] = new_app_data[0]
 					config_app[app_idx]["filepath"] = new_app_data[1]
@@ -97,8 +97,6 @@ def modify_app(app_idx, opts, opt_msgs):
 					config_app[app_idx]["idfpath"] = new_idf_data[1]
 
 
-
-
 	if new_app_data or new_idf_data:
 		config[SECTION_APP] = config_app
 		config_write(config)
@@ -108,11 +106,20 @@ def modify_app(app_idx, opts, opt_msgs):
 
 
 
-def change_name(data):
+def change_name(config_app, data):
 
 	new_name = click.prompt("\nEnter new name")
+	if is_json_dup(config_app, "name", new_name):
+		disp_err("{} already exists in config".format(new_name), exit=True)
 
 	proj_path = data["filepath"]
+
+	os.chdir(proj_path)
+	os.chdir("..")
+
+	new_filepath = (os.path.join(os.getcwd(), new_name))
+	if is_dir(new_filepath):
+		disp_err("\nDirectory with new app name exists", exit=True)
 
 	makefile_path = os.path.join(proj_path, "Makefile")
 	if not is_file(makefile_path):
@@ -136,18 +143,11 @@ def change_name(data):
 			break
 	cmake_data = "".join(cmake_data)
 
-	old_filepath = data["filepath"]
-	os.chdir(old_filepath)
-	os.chdir("..")
-
-	new_filepath = (os.path.join(os.getcwd(), new_name))
-	if is_dir(new_filepath):
-		disp_err("\nDirectory with new app name exists", exit=True)
 
 	if click.confirm("Change the name of the project?"):
 		write_file(makefile_path, makefile_data)
 		write_file(cmake_path, cmake_data)
-		os.rename(old_filepath, new_filepath)
+		os.rename(proj_path, new_filepath)
 		click.echo("\nName changed.")
 		return [new_name, new_filepath]
 

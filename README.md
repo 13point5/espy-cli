@@ -1,10 +1,10 @@
 # espy-cli
-A CLI application to manage your ESP-IDF projects with ease.
+A Command Line application to manage your ESP-IDF projects with ease.
 
 # Features
-* Manage all your projects and change their configuration with ease
-* Use multiple IDF versions without the need to update Environment variables
-* Change the IDF used in a project at any time.
+* Manage all your projects and change their configuration
+* Use multiple IDF versions without the need to update Environment variables and then logout or reboot
+* Change the IDF used in a project at any time
 
 ### Note
 > Initially you need to configure 1 path in the IDF_PATH environment variable, **only once**.<br>
@@ -53,6 +53,8 @@ A CLI application to manage your ESP-IDF projects with ease.
         +------+--------------------------------------+
         | idf1 | /home/user/esp/esp-idf-v3.3-beta3    |
         +------+--------------------------------------+
+
+        Change the name? [y/N]: y
         Enter the new name for the IDF: default
 
         Change the path of the IDF? [y/N]: y
@@ -83,7 +85,7 @@ A CLI application to manage your ESP-IDF projects with ease.
       ```
       $ espy app new -n hello_world -idf idf1
       Project created!
-      
+
       $ tree hello_world/
       hello_world/
       ├── CMakelists.txt
@@ -95,29 +97,61 @@ A CLI application to manage your ESP-IDF projects with ease.
 
       1 directory, 5 files
       ```
-      
+
    * Get all or specific App(s)
       ```
       $ espy app get
-      
+
       +-------------+----------------------------------------------+------+---------------------------+
       | name        | filepath                                     | idf  | idfpath                   |
       +-------------+----------------------------------------------+------+---------------------------+
       | hello_world | /home/user/Documents/projects/hello_world    | idf1 | /home/user/esp/esp-idf    |
       +-------------+----------------------------------------------+------+---------------------------+
       ```
-      
+
    * Modify an App
       ```
       $ espy app mod -n hello_world
+
       What do you wish to modify?
       [1] Name
       [2] IDF
 
-      Enter option number (0 for ALL): 1
+      Enter option number (0 for ALL): 0
 
-      Enter new name: bye_world
+      Enter new name: bye
       Change the name of the project? [y/N]: y
-      Successfully changed name!
+
+      Name changed.
+
+      Enter new IDF's name: idf2
+      Change the IDF of the project? [y/N]: y
+
+      IDF changed.
+
+      Successfully modified app details!
       ```
-      
+
+3. View Config
+      ```
+      $ espy show
+
+      Config location: /home/user/.config/espy-cli/config.json
+
+      IDFs
+
+      +------+--------------------------------------+
+      | name | filepath                             |
+      +------+--------------------------------------+
+      | idf1 | /home/user/esp/esp-idf               |
+      | idf2 | /home/user/esp/esp-idf-v3.3-beta3    |
+      +------+--------------------------------------+
+
+      Apps
+
+      +-------------+----------------------------------------------+------+---------------------------+
+      | name        | filepath                                     | idf  | idfpath                   |
+      +-------------+----------------------------------------------+------+---------------------------+
+      | hello_world | /home/user/Documents/projects/hello_world    | idf1 | /home/user/esp/esp-idf    |
+      +-------------+----------------------------------------------+------+---------------------------+
+      ```

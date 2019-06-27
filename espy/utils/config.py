@@ -14,16 +14,16 @@ def config_read():
 
 def config_disp():
 	"""
-	display config
+	Display config
 	"""
 	click.echo("\nConfig location: {}".format(CONFIG_FILE))
 
 	idf_data = get_data(SECTION_IDF)
-	click.echo("\nIDFs\n")
+	click.echo("\nIDFs")
 	disp_json(idf_data, ["name", "filepath"])
 
 	app_data = get_data(SECTION_APP)
-	click.echo("\nApps\n")
+	click.echo("\nApps")
 	disp_json(app_data, ["name", "filepath", "idf", "idfpath"])
 
 
@@ -47,11 +47,14 @@ def config_exists():
 		with open(CONFIG_FILE, 'w') as cnf_file:
 			json.dump(empty_config, cnf_file)
 
-		click.echo("\nA blank configuration file has been created at {}\n"
-					"Please add atleast 1 IDF path in order to create apps.\n".format(CONFIG_FILE))
+		click.echo("\nAn empty configuration file has been created.\n"
+					"Please add atleast 1 IDF path in order to create apps.")
 		return False
 
-	return True
+	if config_check(SECTION_APP) and config_check(SECTION_IDF):
+		return True
+
+	disp_err("Config file is corrupted. Kindly correct it or delete it to create an empty configuration.", exit=True)
 
 
 def config_check(section):
@@ -60,14 +63,17 @@ def config_check(section):
 	"""
 	config = config_read()
 
-	if not config[section]:
-		disp_err("{} config is empty".format(section))
+	try:
+		data = config[section]
+		return True
+	except Exception as e:
 		return False
-
-	return True
 
 
 def get_data(section, key=None, value=None, idx=False):
+	"""
+	Get data from config
+	"""
 	config = config_read()
 	config_section = config[section]
 

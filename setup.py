@@ -5,7 +5,7 @@ setup(
       version="0.1",
 	  author="Bharath Sriraam R R",
       author_email="albharath.1305@gmail.com",
-	  description="ESP-IDF Command Line Interface",
+	  description="A Command Line application to manage your ESP-IDF projects with ease.",
 	  long_description=open('README.md').read(),
       packages=find_packages(exclude=['*__pycache__*', '*espy.egg-info*']),
       package_data={},
@@ -13,5 +13,5 @@ setup(
       entry_points={
         'console_scripts': ['espy = espy.cli:cli']
       },
-	  url="https://github.com/de-alchemist/espy-cli"
+	  url="https://github.com/13point5/espy-cli"
 )

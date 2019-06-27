@@ -24,7 +24,7 @@ def create_app(name, filepath, idfname):
 @click.option('-n', '--name', type=click.STRING, help='Name of the app')
 def get_app(name):
 	"""
-	Get all or specified app from config
+	Get all or specified App from config
 	"""
 	data = config.get_data(constants.SECTION_APP, "name", name)
 	general.disp_json(data, ["name", "filepath", "idf", "idfpath"])
@@ -34,7 +34,7 @@ def get_app(name):
 @click.option('-n', '--name', required=True, type=click.STRING, help='Original Name of the app to modify')
 def mod_app(name):
 	"""
-	Modify name or idf of app
+	Modify name or idf of App
 	"""
 	app_idx = config.get_data(constants.SECTION_APP, "name", name, True)
 
