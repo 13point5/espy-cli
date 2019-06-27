@@ -10,7 +10,7 @@ A Command Line application to manage your ESP-IDF projects with ease.
 > Initially you need to configure 1 path in the IDF_PATH environment variable, **only once**.<br>
 > Projects are called apps.<br>
 > Before creating an app make sure you have added atleast 1 IDF path.<br>
-> In case you forget espy will remind you :bowtie:
+> In case you forget espy will remind you ;)
 
 # Usage
 1. Managing IDFs
