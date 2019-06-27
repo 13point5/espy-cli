@@ -1,10 +1,10 @@
 # espy-cli
-A CLI application to manage your ESP-IDF projects with ease.
+A Command Line application to manage your ESP-IDF projects with ease.
 
 # Features
-* Manage all your projects and change their configuration with ease
-* Use multiple IDF versions without the need to update Environment variables
-* Change the IDF used in a project at any time.
+* Manage all your projects and change their configuration
+* Use multiple IDF versions without the need to update Environment variables and then logout or reboot
+* Change the IDF used in a project at any time
 
 ### Note
 > Initially you need to configure 1 path in the IDF_PATH environment variable, **only once**.<br>
