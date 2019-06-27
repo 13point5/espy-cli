@@ -136,7 +136,7 @@ A Command Line application to manage your ESP-IDF projects with ease.
       ```
       $ espy show
       
-      Config location: /home/user/.config/esp-cli/config.json
+      Config location: /home/user/.config/espy-cli/config.json
 
       IDFs
 
